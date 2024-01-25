@@ -1,10 +1,13 @@
 package repository
 
 import (
-	valueObjects "github.com/go-api/src/domain/valueObjects"
+	entitie "github.com/go-api/src/domain/entities"
 )
 
+type StatusResponse struct {
+	Status string
+}
 type UserRepository interface {
-	FindAll() ([]valueObjects.UserVo, error)
-	Create() valueObjects.CreateUserVO
+	FindAll() (*[]entitie.UserEntity, error)
+	Create(*entitie.UserEntity) *StatusResponse
 }

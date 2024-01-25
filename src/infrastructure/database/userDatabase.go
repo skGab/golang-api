@@ -1,22 +1,30 @@
 package database
 
 import (
-	"log"
-
-	"github.com/go-api/src/domain/valueObjects"
+	entitie "github.com/go-api/src/domain/entities"
+	"github.com/go-api/src/domain/repository"
 )
 
 type UserDatabase struct{}
 
 // CREATE USER
-func (*UserDatabase) Create() valueObjects.CreateUserVO {
-	log.Print("Rota chamada")
-	return valueObjects.CreateUserVO{}
+func (*UserDatabase) Create(*entitie.UserEntity) *repository.StatusResponse {
+	// CHECK IF HAS DATA
+
+	// MAP THE DATA TO ORM MODEL
+
+	// CHECK IF USER EXISTS
+
+	// CREATE USERS
+	status := &repository.StatusResponse{Status: "Usuario criado"}
+
+	return status
 }
 
 // GET USERS
-func (*UserDatabase) FindAll() ([]valueObjects.UserVo, error) {
-	users := []valueObjects.UserVo{userVo, userVo, userVo, userVo}
+func (*UserDatabase) FindAll() (*[]entitie.UserEntity, error) {
+	// FIND ALL USERS
+	var users *[]entitie.UserEntity
 
 	return users, nil
 }

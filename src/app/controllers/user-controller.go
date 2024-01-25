@@ -1,12 +1,11 @@
 package controller
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	entitie "github.com/go-api/src/domain/entities"
 	"github.com/go-api/src/domain/repository"
-	"github.com/go-api/src/domain/valueObjects"
 )
 
 type UserController struct {
@@ -30,12 +29,16 @@ func (uc *UserController) FindAll(gin *gin.Context) {
 
 // CREATE USER
 func (uc *UserController) Create(gin *gin.Context) {
-	var user valueObjects.CreateUserVO
+	var user *entitie.UserEntity
 
+	// GET THE USER ON THE REQUEST
 	if err := gin.ShouldBindJSON(&user); err != nil {
 		gin.JSON(http.StatusBadRequest, err)
 		return
 	}
 
-	log.Print(user)
+	// CREATE THE USER
+	response := uc.UserRepository.Create(user)
+
+	gin.JSON(http.StatusOK, response)
 }

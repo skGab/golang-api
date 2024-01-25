@@ -3,8 +3,10 @@ package server
 import (
 	gin "github.com/gin-gonic/gin"
 	controller "github.com/go-api/src/app/controllers"
+	entitie "github.com/go-api/src/domain/entities"
 	"github.com/go-api/src/domain/repository"
 	"github.com/go-api/src/domain/valueObjects"
+	"github.com/go-api/src/infrastructure/adapter"
 	"github.com/go-api/src/infrastructure/database"
 )
 
@@ -16,10 +18,10 @@ func Up() {
 	router := gin.Default()
 
 	// CONNECT WITH DATABASE
-	db := database.Connect()
+	db := adapter.Connect()
 
 	// MIGRATE MODELS
-	db.AutoMigrate(&valueObjects.UserVo{}, &valueObjects.TasksVo{})
+	db.AutoMigrate(&entitie.UserEntity{}, &valueObjects.TasksVo{})
 
 	// INSTANCE OF USER HANDLER and Repository
 	var _ repository.UserRepository = &database.UserDatabase{}

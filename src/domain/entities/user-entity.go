@@ -1,3 +1,11 @@
 package entitie
 
-type UsersHandler struct{}
+import "github.com/go-api/src/domain/valueObjects"
+
+type UserEntity struct {
+	ID       string
+	Email    int
+	Password string
+	User     string
+	Tasks    []valueObjects.TasksVo
+}
