@@ -4,7 +4,6 @@ import (
 	gin "github.com/gin-gonic/gin"
 	controller "github.com/go-api/src/app/controllers"
 	entitie "github.com/go-api/src/domain/entities"
-	"github.com/go-api/src/domain/repository"
 	"github.com/go-api/src/domain/valueObjects"
 	"github.com/go-api/src/infrastructure/adapter"
 	"github.com/go-api/src/infrastructure/database"
@@ -24,10 +23,9 @@ func Up() {
 	db.AutoMigrate(&entitie.UserEntity{}, &valueObjects.TasksVo{})
 
 	// INSTANCE OF USER HANDLER and Repository
-	var _ repository.UserRepository = &database.UserDatabase{}
-	userRepository := &database.UserDatabase{}
+	userRepository := &database.UserDatabase{Adapter: db}
 
-	userController := controller.UserController{
+	userController := &controller.UserController{
 		UserRepository: userRepository,
 	}
 

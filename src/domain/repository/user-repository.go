@@ -4,10 +4,12 @@ import (
 	entitie "github.com/go-api/src/domain/entities"
 )
 
-type StatusResponse struct {
-	Status string
+type Status struct {
+	Status  bool
+	Message string
 }
+
 type UserRepository interface {
-	FindAll() (*[]entitie.UserEntity, error)
-	Create(*entitie.UserEntity) *StatusResponse
+	FindAll() (*[]entitie.UserEntity, *Status)
+	Create(*entitie.UserEntity) *Status
 }

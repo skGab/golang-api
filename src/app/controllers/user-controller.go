@@ -12,6 +12,12 @@ type UserController struct {
 	UserRepository repository.UserRepository
 }
 
+type StatusResponse struct {
+	Status string
+	Data   interface{}
+	Err    error
+}
+
 // GET ALL USERS
 func (uc *UserController) FindAll(gin *gin.Context) {
 	// GET USERS FROM DB

@@ -1,28 +1,34 @@
 package database
 
 import (
+	"log"
+
 	entitie "github.com/go-api/src/domain/entities"
 	"github.com/go-api/src/domain/repository"
+	"gorm.io/gorm"
 )
 
-type UserDatabase struct{}
+type UserDatabase struct {
+	Adapter *gorm.DB
+}
 
 // CREATE USER
-func (*UserDatabase) Create(*entitie.UserEntity) *repository.StatusResponse {
+func (db *UserDatabase) Create(user *entitie.UserEntity) *repository.Status {
 	// CHECK IF HAS DATA
-
-	// MAP THE DATA TO ORM MODEL
 
 	// CHECK IF USER EXISTS
 
 	// CREATE USERS
-	status := &repository.StatusResponse{Status: "Usuario criado"}
+	log.Print("Usuario", user)
+	db.Adapter.Create(user)
 
-	return status
+	response := &repository.Status{Status: true, Message: "Usuario criado"}
+
+	return response
 }
 
 // GET USERS
-func (*UserDatabase) FindAll() (*[]entitie.UserEntity, error) {
+func (*UserDatabase) FindAll() (*[]entitie.UserEntity, *repository.Status) {
 	// FIND ALL USERS
 	var users *[]entitie.UserEntity
 
