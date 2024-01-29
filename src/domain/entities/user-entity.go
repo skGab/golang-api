@@ -3,9 +3,9 @@ package entitie
 import "github.com/go-api/src/domain/valueObjects"
 
 type UserEntity struct {
-	ID       string
-	Email    int
+	ID       string `gorm:"primaryKey"`
+	Email    string
 	Password string
 	User     string
-	Tasks    []valueObjects.TasksVo
+	Tasks    []valueObjects.TasksVo `gorm:"foreignKey:UserID"`
 }

@@ -12,19 +12,13 @@ type UserController struct {
 	UserRepository repository.UserRepository
 }
 
-type StatusResponse struct {
-	Status string
-	Data   interface{}
-	Err    error
-}
-
 // GET ALL USERS
 func (uc *UserController) FindAll(gin *gin.Context) {
 	// GET USERS FROM DB
 	users, err := uc.UserRepository.FindAll()
 
 	// RETURN ERROR RESPONSE IF ERROR
-	if err != nil {
+	if !err.Status {
 		gin.JSON(http.StatusInternalServerError, err)
 		return
 	}
@@ -46,5 +40,10 @@ func (uc *UserController) Create(gin *gin.Context) {
 	// CREATE THE USER
 	response := uc.UserRepository.Create(user)
 
-	gin.JSON(http.StatusOK, response)
+	if !response.Status {
+		gin.JSON(http.StatusInternalServerError, response.Message)
+		return
+	}
+
+	gin.JSON(http.StatusOK, response.Message)
 }
