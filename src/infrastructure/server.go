@@ -19,7 +19,7 @@ func Up() {
 	db := adapter.Connect()
 
 	// MIGRATE MODELS
-	db.AutoMigrate(&entities.UserEntity{}, &entities.TasksEntity{})
+	db.AutoMigrate(&entities.UserEntity{}, &entities.TaskEntity{})
 
 	// CREATING AND INJECTING INSTANCES
 	userController, tasksController := factory.InjectInstances(db)

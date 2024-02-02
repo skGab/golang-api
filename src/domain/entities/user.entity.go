@@ -2,8 +2,8 @@ package entities
 
 type UserEntity struct {
 	ID       string `gorm:"primaryKey"`
+	User     string
 	Email    string
 	Password string
-	User     string
-	Tasks    []TasksEntity `gorm:"foreignKey:UserID"`
+	Tasks    []TaskEntity `gorm:"foreignKey:UserID"`
 }
