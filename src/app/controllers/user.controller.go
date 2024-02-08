@@ -21,7 +21,7 @@ func (uc *UserController) FindAll(gin *gin.Context) {
 
 	// RETURN ERROR IF ANY
 	if err != nil {
-		gin.JSON(http.StatusInternalServerError, err)
+		gin.JSON(http.StatusInternalServerError, "Erro interno no servidor")
 		return
 	}
 

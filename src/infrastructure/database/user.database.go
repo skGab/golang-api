@@ -1,8 +1,9 @@
 package database
 
 import (
+	"errors"
+
 	entitie "github.com/go-api/src/domain/entities"
-	"github.com/go-api/src/domain/repository"
 	"gorm.io/gorm"
 )
 
@@ -11,30 +12,30 @@ type UserDatabase struct {
 }
 
 // CREATE USER
-func (db *UserDatabase) Create(user *entitie.UserEntity) *repository.Status {
+func (db *UserDatabase) Create(user *entitie.UserEntity) (error, *entitie.UserEntity) {
 	// CHECK IF USER EXISTS
 	userStatus := db.Adapter.Find(&user)
 
 	if userStatus.Error != nil {
-		return &repository.Status{Status: false, Message: "Erro ao buscar usuario", Error: userStatus.Error}
+		return userStatus.Error, nil
 	}
 
 	if userStatus.RowsAffected != 0 {
-		return &repository.Status{Status: true, Data: &user, Message: "Usuario já cadastrado"}
+		return errors.New("Usuario já cadastrado"), nil
 	}
 
 	// CREATE USERS
 	response := db.Adapter.Create(&user)
 
 	if response.Error != nil {
-		return &repository.Status{Status: false, Message: "Erro ao criar usuarios", Error: response.Error}
+		return response.Error, nil
 	}
 
-	return &repository.Status{Status: true, Data: &user, Message: "Novo usuario registrado"}
+	return nil, user
 }
 
 // GET USERS
-func (db *UserDatabase) FindAll() *repository.Status {
+func (db *UserDatabase) FindAll() (error, *[]entitie.UserEntity) {
 	// FIND ALL USERS
 	var users []entitie.UserEntity
 
@@ -43,12 +44,12 @@ func (db *UserDatabase) FindAll() *repository.Status {
 
 	// Check for errors in finding users
 	if result.Error != nil {
-		return &repository.Status{Status: false, Message: "Erro ao buscar usuarios: ", Error: result.Error}
+		return result.Error, nil
 	}
 
 	if result.RowsAffected == 0 {
-		return &repository.Status{Status: false, Message: "Nenhum usuario encontrado"}
+		return errors.New("Nenhum usuario encontrado"), nil
 	}
 
-	return &repository.Status{Status: true, Data: &users, Message: "Usuarios encontrados"}
+	return nil, &users
 }

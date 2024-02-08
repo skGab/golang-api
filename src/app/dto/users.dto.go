@@ -13,20 +13,20 @@ type UsersDTO struct {
 }
 
 // CONSTRUCTOR
-func NewUsersDtos(usersEntities *[]entities.UserEntity) *[]UsersDTO {
-	usersDTOs := make([]UsersDTO, 0, len(*usersEntities))
+func NewUsersDtos(usersEntities []entities.UserEntity) []UsersDTO {
+	usersDTOs := make([]UsersDTO, 0, len(usersEntities))
 
-	for _, userEntity := range *usersEntities {
+	for _, userEntity := range usersEntities {
 		userDTO := UsersDTO{
 			ID:       userEntity.ID,
 			User:     userEntity.User,
 			Email:    userEntity.Email,
 			Password: userEntity.Password,
-			Tasks:    *NewTasksDTO(&userEntity),
+			Tasks:    NewTasksDTO(userEntity),
 		}
 
 		usersDTOs = append(usersDTOs, userDTO)
 	}
 
-	return &usersDTOs
+	return usersDTOs
 }

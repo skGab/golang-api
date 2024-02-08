@@ -14,7 +14,7 @@ type TasksDTO struct {
 	UserID    string
 }
 
-func NewTasksDTO(userEntity *entities.UserEntity) *[]TasksDTO {
+func NewTasksDTO(userEntity entities.UserEntity) []TasksDTO {
 
 	tasksDTO := make([]TasksDTO, 0, len(userEntity.Tasks))
 
@@ -30,6 +30,6 @@ func NewTasksDTO(userEntity *entities.UserEntity) *[]TasksDTO {
 		tasksDTO = append(tasksDTO, tasks)
 	}
 
-	return &tasksDTO
+	return tasksDTO
 
 }
