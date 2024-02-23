@@ -5,6 +5,6 @@ import (
 )
 
 type UserRepository interface {
-	Create(*entitie.UserEntity) (error, *entitie.UserEntity)
-	FindAll() (error, *[]entitie.UserEntity)
+	Create(*entitie.UserEntity) (*entitie.UserEntity, error)
+	FindAll() ([]entitie.UserEntity, error)
 }

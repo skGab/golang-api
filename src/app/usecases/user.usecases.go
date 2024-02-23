@@ -8,34 +8,38 @@ import (
 	"github.com/go-api/src/domain/repository"
 )
 
+type UserUsecases struct {
+	UserRepository repository.UserRepository
+}
+
 // CREATE USER
-func CreateUser(userRepository repository.UserRepository, user *entities.UserEntity) (*dto.NewUserDTO, error) {
+func (uu *UserUsecases) CreateUser(rawUser *entities.UserEntity) (*dto.NewUserDTO, error) {
+	// BUILD DE USER ID
+	newUser := entities.NewUser(rawUser)
+
 	// CREATE THE USER
-	err, newUser := userRepository.Create(user)
+	userEntity, err := uu.UserRepository.Create(newUser)
 
 	// RETURN ERROR IF STATUS IS FALSE
 	if err != nil {
-		return nil, error(response.Error)
+		fmt.Println(err)
+		return nil, err
 	}
 
-	userData := response.Data.(entities.UserEntity)
-
 	// MAP ENTITY TO DTO
-	return dto.NewUser(userData), nil
+	return dto.NewUser(userEntity), nil
 }
 
 // GET ALL USERS
-func FindAllUsers(userRepository repository.UserRepository) ([]dto.UsersDTO, error) {
+func (uu *UserUsecases) FindAllUsers() ([]dto.UsersDTO, error) {
 	// GET USERS FROM DB
-	err, userRepository := userRepository.FindAll()
+	usersEntities, err := uu.UserRepository.FindAll()
 
 	// RETURN ERROR RESPONSE IF ERROR
 	if err != nil {
-		fmt.Errorf(err.Error())
-		return nil, error(err)
+		fmt.Print(err)
+		return nil, err
 	}
-
-	usersEntities := response.Data.(*[]entities.UserEntity)
 
 	// MAP ENTITY TO DTO
 	return dto.NewUsersDtos(usersEntities), nil

@@ -12,30 +12,30 @@ type UserDatabase struct {
 }
 
 // CREATE USER
-func (db *UserDatabase) Create(user *entitie.UserEntity) (error, *entitie.UserEntity) {
+func (db *UserDatabase) Create(userEntity *entitie.UserEntity) (*entitie.UserEntity, error) {
 	// CHECK IF USER EXISTS
-	userStatus := db.Adapter.Find(&user)
+	userStatus := db.Adapter.Raw("SELECT id FROM user_entities WHERE email = ?", userEntity.Email).Scan(&userEntity)
 
 	if userStatus.Error != nil {
-		return userStatus.Error, nil
+		return nil, userStatus.Error
 	}
 
 	if userStatus.RowsAffected != 0 {
-		return errors.New("Usuario já cadastrado"), nil
+		return nil, errors.New("usuário já cadastrado")
 	}
 
 	// CREATE USERS
-	response := db.Adapter.Create(&user)
+	response := db.Adapter.Create(&userEntity)
 
 	if response.Error != nil {
-		return response.Error, nil
+		return nil, response.Error
 	}
 
-	return nil, user
+	return userEntity, nil
 }
 
 // GET USERS
-func (db *UserDatabase) FindAll() (error, *[]entitie.UserEntity) {
+func (db *UserDatabase) FindAll() ([]entitie.UserEntity, error) {
 	// FIND ALL USERS
 	var users []entitie.UserEntity
 
@@ -44,12 +44,12 @@ func (db *UserDatabase) FindAll() (error, *[]entitie.UserEntity) {
 
 	// Check for errors in finding users
 	if result.Error != nil {
-		return result.Error, nil
+		return nil, result.Error
 	}
 
 	if result.RowsAffected == 0 {
-		return errors.New("Nenhum usuario encontrado"), nil
+		return nil, errors.New("nenhum usuario encontrado")
 	}
 
-	return nil, &users
+	return users, nil
 }

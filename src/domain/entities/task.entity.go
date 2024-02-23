@@ -8,27 +8,19 @@ import (
 
 // NEED TO TEST THE JSON VALIDATION
 type TaskEntity struct {
-	ID        string
+	ID        string `gorm:"primaryKey"`
 	Complete  bool
 	Text      string
 	CreatedAt time.Time
-	UserID    string `gorm:"primaryKey"`
+	UserID    string
 }
 
-func NewTask(text string, userID string, ids ...string) *TaskEntity {
-	var taskID string
-
-	if len(ids) > 0 && ids[0] != "" {
-		taskID = ids[0]
-	} else {
-		taskID = uuid.New().String()
-	}
-
+func NewTask(text string, UserID string) *TaskEntity {
 	return &TaskEntity{
-		ID:        taskID,
+		ID:        uuid.New().String(),
 		Complete:  false,
 		Text:      text,
 		CreatedAt: time.Now(),
-		UserID:    userID,
+		UserID:    UserID,
 	}
 }

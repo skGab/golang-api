@@ -2,7 +2,6 @@ package server
 
 import (
 	gin "github.com/gin-gonic/gin"
-	"github.com/go-api/src/domain/entities"
 	"github.com/go-api/src/infrastructure/adapter"
 	"github.com/go-api/src/infrastructure/factory"
 	"github.com/go-api/src/infrastructure/routes"
@@ -18,11 +17,13 @@ func Up() {
 	// CONNECT WITH DATABASE
 	db := adapter.Connect()
 
-	// MIGRATE MODELS
-	db.AutoMigrate(&entities.UserEntity{}, &entities.TaskEntity{})
+	// db.Migrator().DropTable(&entities.UserEntity{}, &entities.TaskEntity{})
+
+	// MIGRATE MODELS.
+	// db.AutoMigrate(&entities.UserEntity{}, &entities.TaskEntity{})
 
 	// CREATING AND INJECTING INSTANCES
-	userController, tasksController := factory.InjectInstances(db)
+	userController, tasksController := factory.InjectDepedencies(db)
 
 	// REGISTER THE ROUTES AND HANDLES
 	routes.Register(router, userController, tasksController)

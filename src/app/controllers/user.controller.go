@@ -6,18 +6,17 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-api/src/app/usecases"
 	"github.com/go-api/src/domain/entities"
-	"github.com/go-api/src/domain/repository"
 )
 
 type UserController struct {
-	UserRepository repository.UserRepository
+	UserUsecases usecases.UserUsecases
 }
 
 // GET ALL USERS
 func (uc *UserController) FindAll(gin *gin.Context) {
 
 	// CALL THE USECASE METHOD
-	usersDTOs, err := usecases.FindAllUsers(uc.UserRepository)
+	usersDTOs, err := uc.UserUsecases.FindAllUsers()
 
 	// RETURN ERROR IF ANY
 	if err != nil {
@@ -31,20 +30,20 @@ func (uc *UserController) FindAll(gin *gin.Context) {
 
 // CREATE USER
 func (uc *UserController) Create(gin *gin.Context) {
-	var user *entities.UserEntity
+	var rawUser *entities.UserEntity
 
 	// GET THE USER ON THE REQUEST
-	if err := gin.ShouldBindJSON(&user); err != nil {
+	if err := gin.ShouldBindJSON(&rawUser); err != nil {
 		gin.JSON(http.StatusBadRequest, err)
 		return
 	}
 
 	// CALL THE USECASE METHOD
-	newUserDTO, err := usecases.CreateUser(uc.UserRepository, user)
+	newUserDTO, err := uc.UserUsecases.CreateUser(rawUser)
 
 	// CHECK IF HAS A VALID USER DTO
 	if err != nil {
-		gin.JSON(http.StatusInternalServerError, err)
+		gin.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
