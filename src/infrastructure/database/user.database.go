@@ -14,7 +14,7 @@ type UserDatabase struct {
 // CREATE USER
 func (db *UserDatabase) Create(userEntity *entitie.UserEntity) (*entitie.UserEntity, error) {
 	// CHECK IF USER EXISTS
-	userStatus := db.Adapter.Raw("SELECT id FROM user_entities WHERE email = ?", userEntity.Email).Scan(&userEntity)
+	userStatus := db.Adapter.Raw("SELECT id FROM user_entities WHERE user = ?", userEntity.User).Scan(&userEntity)
 
 	if userStatus.Error != nil {
 		return nil, userStatus.Error

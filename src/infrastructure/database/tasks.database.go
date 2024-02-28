@@ -12,7 +12,7 @@ type TasksDatabase struct {
 }
 
 // FIND ALL TASKS
-func (db *TasksDatabase) FindAll(userID string) ([]entities.TaskEntity, error) {
+func (db *TasksDatabase) FindAll(userID string) (interface{}, error) {
 	var tasks []entities.TaskEntity
 
 	response := db.Adapter.Where("user_id = ?", userID).Find(&tasks)
@@ -22,7 +22,7 @@ func (db *TasksDatabase) FindAll(userID string) ([]entities.TaskEntity, error) {
 	}
 
 	if response.RowsAffected == 0 {
-		return nil, errors.New("nenhuma tarefa encontrada")
+		return struct{ message string }{message: "Nenhuma tarefa encontrada"}, nil
 	}
 
 	// RETURN RESPONSE
@@ -31,16 +31,16 @@ func (db *TasksDatabase) FindAll(userID string) ([]entities.TaskEntity, error) {
 
 // // CREATE TASK
 func (db *TasksDatabase) Create(text string, userID string) (*entities.TaskEntity, error) {
-	// CHECK IF USE.ID EXISTS BEFORE CREATING THE TASK
-	userStatus := db.Adapter.Raw("SELECT id FROM user_entities WHERE id = ?", userID).Scan(&entities.UserEntity{})
+	// // CHECK IF USE.ID EXISTS BEFORE CREATING THE TASK
+	// userStatus := db.Adapter.Raw("SELECT id FROM user_entities WHERE id = ?", userID).Scan(&entities.UserEntity{})
 
-	if userStatus.Error != nil {
-		return nil, userStatus.Error
-	}
+	// if userStatus.Error != nil {
+	// 	return nil, userStatus.Error
+	// }
 
-	if userStatus.RowsAffected == 0 {
-		return nil, errors.New("precisa existir um usuario para criar tarefas")
-	}
+	// if userStatus.RowsAffected == 0 {
+	// 	return nil, errors.New("precisa existir um usuario para criar tarefas")
+	// }
 
 	// MAP THE DATA TO TASK ENTITY
 	newTaskEntity := entities.NewTask(text, userID)
@@ -84,7 +84,7 @@ func (db *TasksDatabase) DeleteAllTodo(userID string) (string, error) {
 	}
 
 	if response.RowsAffected == 0 {
-		return "Algo aconteceu ao deletar as tarefas", response.Error
+		return "Algo aconteceu ao deletar as tarefas", nil
 	}
 
 	return "Tarefas deletadas", nil

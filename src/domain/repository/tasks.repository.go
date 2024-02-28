@@ -3,7 +3,7 @@ package repository
 import "github.com/go-api/src/domain/entities"
 
 type TasksRepository interface {
-	FindAll(userID string) ([]entities.TaskEntity, error)
+	FindAll(userID string) (interface{}, error)
 	Create(text string, userID string) (*entities.TaskEntity, error)
 	Delete(id string) (string, error)
 	DeleteAllTodo(id string) (string, error)

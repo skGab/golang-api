@@ -18,14 +18,14 @@ func (tc *TasksController) FindAllTasks(gin *gin.Context) {
 	userID := gin.Param("id")
 
 	// FETCH TASKS
-	tasksDTO, err := tc.TasksUsecases.FindAll(userID)
+	response, err := tc.TasksUsecases.FindAll(userID)
 
 	if err != nil {
 		gin.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	gin.JSON(http.StatusOK, tasksDTO)
+	gin.JSON(http.StatusOK, response)
 }
 
 // CREATE USER TASKS

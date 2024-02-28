@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/go-api/src/app/dto"
+	"github.com/go-api/src/domain/entities"
 	"github.com/go-api/src/domain/repository"
 )
 
@@ -12,31 +13,40 @@ type TasksUsecases struct {
 }
 
 // FIND ALL TASKS
-func (tu *TasksUsecases) FindAll(userID string) ([]dto.TasksDTO, error) {
+func (tu *TasksUsecases) FindAll(userID string) (interface{}, error) {
 	// FETCH THE TASKS
-	tasks, err := tu.TasksRepository.FindAll(userID)
+	response, err := tu.TasksRepository.FindAll(userID)
 
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
 
-	// MAP TO ENTITIES TO DTO
-	tasksDTOs := make([]dto.TasksDTO, 0, len(tasks))
+	// CHECK IF RESPONSE HAS ENTITIES
+	if tasks, ok := response.([]entities.TaskEntity); ok {
+		// MAP TO ENTITIES TO DTO
+		tasksDTOs := make([]dto.TasksDTO, 0, len(tasks))
 
-	for _, task := range tasks {
-		taskDTO := dto.TasksDTO{
-			ID:        task.ID,
-			Complete:  task.Complete,
-			Text:      task.Text,
-			CreatedAt: task.CreatedAt,
-			UserID:    task.UserID,
+		for _, task := range tasks {
+			taskDTO := dto.TasksDTO{
+				ID:        task.ID,
+				Complete:  task.Complete,
+				Text:      task.Text,
+				CreatedAt: task.CreatedAt,
+				UserID:    task.UserID,
+			}
+
+			tasksDTOs = append(tasksDTOs, taskDTO)
 		}
 
-		tasksDTOs = append(tasksDTOs, taskDTO)
+		// RETURN TASKS ENTITIES
+		return tasksDTOs, nil
 	}
 
-	return tasksDTOs, nil
+	// RETURN OBJECT MESSAGE
+	var emptyArray = make([]string, 0)
+
+	return emptyArray, nil
 }
 
 // CREATE TASK

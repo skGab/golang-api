@@ -13,6 +13,7 @@ func Up() {
 
 	// SET UP AN GIN ROUTER
 	router := gin.Default()
+	router.Use(corsMiddleware())
 
 	// CONNECT WITH DATABASE
 	db := adapter.Connect()
@@ -30,4 +31,20 @@ func Up() {
 
 	// RUN THE SERVER
 	router.Run()
+}
+
+// CORS CONFIGURATION
+func corsMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }

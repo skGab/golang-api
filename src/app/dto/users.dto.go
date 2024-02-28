@@ -7,7 +7,6 @@ import (
 type UsersDTO struct {
 	ID       string
 	User     string
-	Email    string
 	Password string
 	Tasks    []TasksDTO
 }
@@ -20,7 +19,6 @@ func NewUsersDtos(usersEntities []entities.UserEntity) []UsersDTO {
 		userDTO := UsersDTO{
 			ID:       userEntity.ID,
 			User:     userEntity.User,
-			Email:    userEntity.Email,
 			Password: userEntity.Password,
 			Tasks:    NewTasksDTO(userEntity),
 		}

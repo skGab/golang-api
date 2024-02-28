@@ -7,7 +7,6 @@ import (
 type NewUserDTO struct {
 	ID       string
 	User     string
-	Email    string
 	Password string
 }
 
@@ -17,7 +16,6 @@ func NewUser(userEntity *entities.UserEntity) *NewUserDTO {
 	return &NewUserDTO{
 		ID:       userEntity.ID,
 		User:     userEntity.User,
-		Email:    userEntity.Email,
 		Password: userEntity.Password,
 	}
 }
