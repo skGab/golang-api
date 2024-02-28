@@ -2,16 +2,26 @@ package adapter
 
 import (
 	"fmt"
+	"log"
+	"os"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func Connect() *gorm.DB {
-	dns := "postgres://go_api_db_user:Go6gpdR59ranA8t3grhSuFhI59m3BS6q@dpg-cms0cd21hbls73dr4j3g-a.oregon-postgres.render.com/go_api_db"
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	databaseURL := os.Getenv("DATABASE_URL")
+
+	dns := databaseURL
 
 	// TRY TO CONNECT TO DB
-	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{DisableForeignKeyConstraintWhenMigrating: true})
+	db, err := gorm.Open(postgres.Open(dns))
 
 	// RETURN ERROR IF CONNECTION FAILS
 	if err != nil {
