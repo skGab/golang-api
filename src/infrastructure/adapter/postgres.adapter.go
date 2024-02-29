@@ -2,7 +2,6 @@ package adapter
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -12,8 +11,9 @@ import (
 
 func Connect() *gorm.DB {
 	err := godotenv.Load()
+
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		panic(err)
 	}
 
 	databaseURL := os.Getenv("DATABASE_URL")
