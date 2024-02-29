@@ -13,22 +13,26 @@ type UserDatabase struct {
 
 // CREATE USER
 func (db *UserDatabase) Create(userEntity *entitie.UserEntity) (*entitie.UserEntity, error) {
-	// CHECK IF USER EXISTS
-	userStatus := db.Adapter.Raw("SELECT id FROM user_entities WHERE user = ?", userEntity.User).Scan(&userEntity)
-
-	if userStatus.Error != nil {
-		return nil, userStatus.Error
-	}
-
-	if userStatus.RowsAffected != 0 {
-		return nil, errors.New("usuário já cadastrado")
-	}
-
-	// CREATE USERS
-	response := db.Adapter.Create(&userEntity)
+	// GET ALL USERS
+	var existingUsers []entitie.UserEntity
+	response := db.Adapter.Find(&existingUsers)
 
 	if response.Error != nil {
 		return nil, response.Error
+	}
+
+	// LOOP TROUGHT USERS TO CHECK IF ALREADY EXISTS
+	for _, user := range existingUsers {
+		if user.User == userEntity.User {
+			return nil, errors.New("usuario já cadastrado")
+		}
+	}
+
+	// CREATE USERS
+	userStatus := db.Adapter.Create(&userEntity)
+
+	if userStatus.Error != nil {
+		return nil, userStatus.Error
 	}
 
 	return userEntity, nil
@@ -48,7 +52,8 @@ func (db *UserDatabase) FindAll() ([]entitie.UserEntity, error) {
 	}
 
 	if result.RowsAffected == 0 {
-		return nil, errors.New("nenhum usuario encontrado")
+		println("nenhum usuario encontrado")
+		return make([]entitie.UserEntity, 0), nil
 	}
 
 	return users, nil
