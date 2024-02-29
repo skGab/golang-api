@@ -13,12 +13,12 @@ type UserUsecases struct {
 }
 
 // CREATE USER
-func (uu *UserUsecases) CreateUser(rawUser *entities.UserEntity) (*dto.NewUserDTO, error) {
+func (uu *UserUsecases) CreateUser(rawUser *entities.UserEntity) (interface{}, error) {
 	// BUILD DE USER ID
 	newUser := entities.NewUser(rawUser)
 
 	// CREATE THE USER
-	userEntity, err := uu.UserRepository.Create(newUser)
+	response, err := uu.UserRepository.Create(newUser)
 
 	// RETURN ERROR IF STATUS IS FALSE
 	if err != nil {
@@ -27,7 +27,12 @@ func (uu *UserUsecases) CreateUser(rawUser *entities.UserEntity) (*dto.NewUserDT
 	}
 
 	// MAP ENTITY TO DTO
-	return dto.NewUser(userEntity), nil
+	if userEntity, ok := response.(*entities.UserEntity); ok {
+		return dto.NewUser(userEntity), nil
+	}
+
+	return response, nil
+
 }
 
 // GET ALL USERS

@@ -1,8 +1,6 @@
 package database
 
 import (
-	"errors"
-
 	entitie "github.com/go-api/src/domain/entities"
 	"gorm.io/gorm"
 )
@@ -12,7 +10,7 @@ type UserDatabase struct {
 }
 
 // CREATE USER
-func (db *UserDatabase) Create(userEntity *entitie.UserEntity) (*entitie.UserEntity, error) {
+func (db *UserDatabase) Create(userEntity *entitie.UserEntity) (interface{}, error) {
 	// GET ALL USERS
 	var existingUsers []entitie.UserEntity
 	response := db.Adapter.Find(&existingUsers)
@@ -24,7 +22,7 @@ func (db *UserDatabase) Create(userEntity *entitie.UserEntity) (*entitie.UserEnt
 	// LOOP TROUGHT USERS TO CHECK IF ALREADY EXISTS
 	for _, user := range existingUsers {
 		if user.User == userEntity.User {
-			return nil, errors.New("usuario já cadastrado")
+			return "Usuario já cadastrado", nil
 		}
 	}
 

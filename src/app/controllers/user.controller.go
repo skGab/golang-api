@@ -39,7 +39,7 @@ func (uc *UserController) Create(gin *gin.Context) {
 	}
 
 	// CALL THE USECASE METHOD
-	newUserDTO, err := uc.UserUsecases.CreateUser(rawUser)
+	response, err := uc.UserUsecases.CreateUser(rawUser)
 
 	// CHECK IF HAS A VALID USER DTO
 	if err != nil {
@@ -48,5 +48,5 @@ func (uc *UserController) Create(gin *gin.Context) {
 	}
 
 	// RETURN STATUS CODE 200 AND MESSAGE
-	gin.JSON(http.StatusOK, newUserDTO)
+	gin.JSON(http.StatusOK, response)
 }
