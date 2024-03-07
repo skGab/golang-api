@@ -21,7 +21,7 @@
 <!-- DESCRIPTION -->
 <p align="center"> 
         💡 
-        Portfolio pessoal desenvolvido com SvelteKit e Typescript. Através de uma interface moderna e responsiva, apresento uma breve introdução sobre minha trajetória, bem como detalhes e links para projetos desenvolvidos.
+         API escrita em Golang, utilizando ferramentas como Gin e GORM, oferece operações CRUD e autenticação de usuários. Além de seu propósito de aprendizado na construção de APIs, suporta um projeto pessoal, Coopers.
   <br> 
 </p>
 
@@ -38,14 +38,15 @@
 
 ## Tecnologias <a name="tecnologies"></a>
 
-- Sveltekit
-- Typescript
-- Sass
-- AOS (Animações)
+- Golang
+- GORM
+- GIN
+- AIR (Hot reload)
+- PostGresSQL
 
 ## Objetivo <a name="goal"></a>
 
-A proposta é oferecer uma plataforma bem estruturada e visualmente atrativa, com o propósito de destacar habilidades e experiências de mercado.
+O projeto tem como principal objetivo o estudo sobre a lingaguem Golang. Utilizando tecnologias como Gin e GORM, a API busca garantir um desempenho otimizado e uma manutenção simplificada, aproveitando as melhores práticas e padrões de código. Coopers, sendo o projeto subjacente, depende diretamente dessa API para gerenciar suas tarefas e autenticar seus usuários.
 
 ## Funcionalidades <a name="features"></a>
 
@@ -53,47 +54,39 @@ A proposta é oferecer uma plataforma bem estruturada e visualmente atrativa, co
 
 ## Requerimentos de qualidade <a name="quality"></a>
 
-- Responsividade
-- Performance
+- Disponibilidade
 - Sustentável
 
 ## Instruções de Uso <a name="glossary"></a>
 
-- Certifique-se de ter o Node.js instalado em seu sistema. Em seguida, execute o seguinte comando para instalar as dependências do projeto:
+- Certifique-se de ter o Golang instalado em seu sistema. Em seguida, execute o seguinte comando para instalar as dependências do projeto:
 
-`npm install`
+`go install`
 
 <br>
 
-- Para iniciar o servidor de desenvolvimento local, utilize o seguinte comando:
+- Para iniciar o servidor de desenvolvimento local, utilize o seguinte comando no root do projeto:
 
-`npm run dev`
+`go run`
 
-O sistema estará disponível em http://localhost:5000/. As alterações no código serão recarregadas automaticamente no navegador durante o desenvolvimento.
+O sistema estará disponível em http://localhost:8080.
 
 <br>
 
 - Para criar a versão final do projeto otimizada para produção, execute o seguinte comando:
 
-`npm run build`
+`go build`
 
-Os arquivos finais serão gerados na pasta 'build'.
+Os arquivos finais serão gerados em um executavel, "go-api.exe".
+Para executar o arquivo, abra o terminal e rode o seguinte comando para iniciar o servidor:
 
-<br>
-
-- Após o processo de build, visualize a versão de produção localmente com o seguinte comando:
-
-`npm run preview`
-
-O sistema estará disponível em http://localhost:5000/ em uma versão otimizada para produção.
+`go-api.exe`
 
 <br>
 
-- O projeto utiliza ESLint para análise estática do código e Prettier para formatação. Verifique problemas de linting ou formate o código automaticamente com os seguintes comandos:
+- Para manutenção de dependencias utilize o comando:
 
-`npm run lint`
-
-`npm run format `
+`go mod tidy`
 
 ## Autor <a name="authors"></a>
 
