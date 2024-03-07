@@ -20,8 +20,8 @@
 
 <!-- DESCRIPTION -->
 <p align="center"> 
-        💡 
-         API escrita em Golang, utilizando ferramentas como Gin e GORM, oferece operações CRUD e autenticação de usuários. Além de seu propósito de aprendizado na construção de APIs, suporta um projeto pessoal, Coopers.
+        💡
+        API escrita em Golang, utilizando ferramentas como Gin e GORM, oferece operações CRUD e autenticação de usuários. Além de seu propósito de aprendizado na construção de APIs, suporta um projeto pessoal, Coopers.
   <br> 
 </p>
 
