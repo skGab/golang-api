@@ -46,7 +46,7 @@
 
 ## Objetivo <a name="goal"></a>
 
-O projeto tem como principal objetivo o estudo sobre a lingaguem Golang. Utilizando tecnologias como Gin e GORM, a API busca garantir um desempenho otimizado e uma manutenção simplificada, aproveitando as melhores práticas e padrões de código. Coopers, sendo o projeto subjacente, depende diretamente dessa API para gerenciar suas tarefas e autenticar seus usuários.
+O projeto tem como principal objetivo o estudo sobre a linguagem Golang. Utilizando tecnologias como Gin e GORM, a API busca garantir um desempenho otimizado e uma manutenção simplificada, aproveitando as melhores práticas e padrões de código. Coopers, sendo o projeto subjacente, depende diretamente dessa API para gerenciar suas tarefas e autenticar seus usuários.
 
 ## Funcionalidades <a name="features"></a>
 
