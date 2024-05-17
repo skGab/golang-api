@@ -2,6 +2,7 @@ package server
 
 import (
 	gin "github.com/gin-gonic/gin"
+	"github.com/go-api/src/domain/entities"
 	"github.com/go-api/src/infrastructure/adapter"
 	"github.com/go-api/src/infrastructure/factory"
 	"github.com/go-api/src/infrastructure/routes"
@@ -9,7 +10,7 @@ import (
 
 func Up() {
 	// REMOVE GIN LOGS FROM TERMINAL
-	gin.SetMode(gin.DebugMode)
+	gin.SetMode(gin.ReleaseMode)
 
 	// SET UP AN GIN ROUTER
 	router := gin.Default()
@@ -21,7 +22,7 @@ func Up() {
 	// db.Migrator().DropTable(&entities.UserEntity{}, &entities.TaskEntity{})
 
 	// MIGRATE MODELS.
-	// db.AutoMigrate(&entities.UserEntity{}, &entities.TaskEntity{})
+	db.AutoMigrate(&entities.UserEntity{}, &entities.TaskEntity{})
 
 	// CREATING AND INJECTING INSTANCES
 	userController, tasksController := factory.InjectDepedencies(db)
