@@ -9,7 +9,7 @@ import (
 
 func Up() {
 	// REMOVE GIN LOGS FROM TERMINAL
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
 
 	// SET UP AN GIN ROUTER
 	router := gin.Default()
@@ -30,6 +30,7 @@ func Up() {
 	routes.Register(router, userController, tasksController)
 
 	// RUN THE SERVER
+	// PORT 8080
 	router.Run()
 }
 

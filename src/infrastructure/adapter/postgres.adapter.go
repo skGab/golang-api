@@ -17,15 +17,12 @@ func Connect() *gorm.DB {
 
 	databaseURL := os.Getenv("DATABASE_URL")
 
-	dns := databaseURL
-
-	// TRY TO CONNECT TO DBe
-	db, err := gorm.Open(postgres.Open(dns))
+	// TRY TO CONNECT TO DB
+	db, err := gorm.Open(postgres.Open(databaseURL))
 
 	// RETURN ERROR IF CONNECTION FAILS
 	if err != nil {
 		fmt.Println(err)
-		panic("Falha ao conectar com o banco")
 	}
 
 	return db
